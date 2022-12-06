@@ -1,0 +1,52 @@
+Neo4j
+
+MATCH --> query for something
+
+MATCH(n)  --> return the nodes
+RETURN n
+
+
+--query example to find play is lebron 
+MATCH(player:PLAYER)
+WHERE player.name = "LeBron James"
+Return player
+
+--or
+MATCH(player:PLAYER {name : "LeBron James", id:1})
+Return player
+
+--query example to find player which names are not lebron james
+MATCH(player:PLAYER) 
+WHERE player.name <> "LeBron James"
+Return player
+
+--players which are taller than 2m
+MATCH(player:PLAYER)
+WHERE player.height >= 2
+Return player
+
+
+--players which are taller than 2m and weight is greater than 100
+MATCH(player:PLAYER)
+WHERE player.height >= 2 AND player.weight >= 100
+Return player
+
+--players which are not taller than 2m and weight is greater than 100
+MATCH(player:PLAYER)
+WHERE NOT player.height >= 2 AND player.weight >= 100
+Return player
+
+--filtering through multiple nodes
+MATCH(player:PLAYER), (coach:COACH)
+RETURN player,coach
+
+--RELATIONSHIPS
+MATCH(player:PLAYER)-[:PLAYS_FOR]-> (team,TEAM)
+where team.TEAM = "LA Lakers"
+return player
+
+--getting names from lebron teammate whose salary is greater than 4000
+MATCH(lebron:PLAYER {name:"Lebron James") -[:TEAMMATES]-> (teammate:PLAYER)
+MATCH(teammate) -[contract:PLAYS_FOR]-> (team)
+where contract.salary >= 4000
+return teammate
